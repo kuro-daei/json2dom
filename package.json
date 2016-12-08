@@ -1,5 +1,5 @@
 {
-  "name": "json2dom",
+  "name": "json2dom-js",
   "version": "0.0.1",
   "description": "It will make HTML DOM from json format file.",
   "scripts": {

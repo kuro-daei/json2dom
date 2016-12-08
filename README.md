@@ -1,11 +1,11 @@
-json2dom
+json2dom-js
 ===
 t will make HTML DOM from json format file.
 
 ## Install
 
 ```bash
-npm install json2dom
+npm install json2dom-js
 ```
 
 ## Sample Code
@@ -18,7 +18,7 @@ class Controller {
   }
 }
 const ctl = new Controller();
-const Json2Dom = require('json2dom');
+const Json2Dom = require('json2dom-js');
 const j2d = new Json2Dom(ctl);
 j2d.load('path/to/format.js').then((dom) => {
   const target = document.getElementById('target');
