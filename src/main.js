@@ -79,15 +79,13 @@ class Json2Dom {
     if (this.ctlFunc(`before${capRole}Create`, { data: json.data, json }) === false) {
       return null;
     }
-    let type = json.type;
-    if (type === 'dynamic') {
-      type = this.ctlFunc(`tagNameOf${capRole}`, { data: json.data, json });
-      if (typeof type === 'undefined') {
-        throw new Error(`Controller shold have tagNameOf${capRole}()`);
-      }
+    let elm;
+    if (json.type === 'dynamic') {
+      elm = this.ctlFunc(`dynamic${capRole}Create`, { data: json.data, json });
+    } else {
+      elm = document.createElement(json.type);
     }
-    const elm = document.createElement(type);
-    if (elm === null) {
+    if (typeof elm === 'undefined') {
       throw new Error(`${role} can not create any element.`);
     }
 

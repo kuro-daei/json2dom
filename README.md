@@ -1,6 +1,6 @@
 json2dom-js
 ===
-t will make HTML DOM from json format file.
+It will make HTML DOM from json format file.
 
 ## Install
 

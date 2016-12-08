@@ -5,13 +5,13 @@ const Json2Dom = require('../../src/main.js');
 const expect = chai.expect;
 
 class Ctrl1 {
-  tagNameOfPlayer() { return 'div'; } // eslint-disable-line class-methods-use-this
-  tagNameOfTome() { return 'div'; } // eslint-disable-line class-methods-use-this
+  dynamicPlayerCreate() { return document.createElement('div'); } // eslint-disable-line class-methods-use-this
+  dynamicTomeCreate() { return document.createElement('div'); } // eslint-disable-line class-methods-use-this
 }
 
 class Ctrl2 {
-  tagNameOfPlayer() { return 'img'; } // eslint-disable-line class-methods-use-this
-  tagNameOfTome() { return 'span'; } // eslint-disable-line class-methods-use-this
+  dynamicPlayerCreate() { return document.createElement('img'); } // eslint-disable-line class-methods-use-this
+  dynamicTomeCreate() { return document.createElement('span'); } // eslint-disable-line class-methods-use-this
 }
 
 describe('Basic', () => {

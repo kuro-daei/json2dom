@@ -8,12 +8,13 @@ class Ctrl {
   constructor() {
     this.called = [];
   }
+  dynamicPlayerCreate() { this.called.push('tagNameOfPlayer'); return document.createElement('div'); }
   tagNameOfPlayer() { this.called.push('tagNameOfPlayer'); return 'div'; }
   beforePlayerCreate() { this.called.push('beforePlayerCreate'); return true; }
   afterPlayerCreate() { this.called.push('afterPlayerCreate'); return; }
   onBtnFullClick() { this.called.push('onBtnFullClick'); return; }
   beforeTomeCreate() { this.called.push('beforeTomeCreate'); return false; } // not create tome
-  tagNameOfTome() { this.called.push('tagNameOfTome'); return 'div'; }
+  dynamicTomeCreate() { this.called.push('tagNameOfTome'); return document.createElement('div'); }
 }
 
 describe('Filters', () => {
