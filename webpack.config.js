@@ -18,7 +18,8 @@ if (env === 'production') {
 } else {
   config = {
     entry: {index: [
-      './test/src/01-basic.js'
+      './test/src/01-basic.js',
+      './test/src/02-filters.js'
     ]},
     output: {
       path: path.join(__dirname, 'test/dist'),

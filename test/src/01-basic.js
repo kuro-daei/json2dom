@@ -30,6 +30,19 @@ describe('Basic', () => {
       expect(dom).to.contain('div[role="video"] img[role="btnFull"]');
       expect(dom).to.contain('div[role="video"] img[role="btnDetail"]');
       expect(dom).to.contain('div[role="video"] img[role="btnReplay"]');
+      const player = dom.querySelector('div[role="video"] div[role="player"]');
+      expect(player.style.width).to.equal('100%');
+      expect(player.style.height).to.equal('100%');
+      expect(player.style.position).to.equal('absolute');
+      expect(player.style.margin).to.equal('auto');
+      expect(player.style.top).to.equal('1px');
+      expect(player.style.bottom).to.equal('2px');
+      expect(player.style.left).to.equal('3px');
+      expect(player.style.right).to.equal('4px');
+      expect(player.style.objectFit).to.equal('contain');
+      document.getElementById('target').appendChild(dom);
+      expect(Object.keys(j2d.elements)).to.have.lengthOf(10);
+      expect(j2d.elements.player).to.equal(dom.querySelector('div[role="video"] div[role="player"]'));
       done();
     }).catch((error) => {
       done(error);
@@ -46,6 +59,28 @@ describe('Basic', () => {
       done();
     }).catch((error) => {
       done(error);
+    });
+  });
+
+  it('json not found', (done) => {
+    const ctl = new Ctrl2();
+    const j2d = new Json2Dom(ctl);
+    const url = '../data/simple_notfound.js';
+    j2d.load(url).then(() => {
+      done('expect to catch error.');
+    }).catch(() => {
+      done();
+    });
+  });
+
+  it('bad json', (done) => {
+    const ctl = new Ctrl2();
+    const j2d = new Json2Dom(ctl);
+    const url = '../data/bad_json.js';
+    j2d.load(url).then(() => {
+      done('expect to catch error.');
+    }).catch(() => {
+      done();
     });
   });
 });

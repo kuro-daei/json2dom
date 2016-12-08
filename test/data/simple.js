@@ -12,7 +12,7 @@
       "style": "width: 80%; height: 80%; position:relative; margin:auto; top:0 auto; background-color:#000;",
       "$player": {
         "type": "dynamic",
-        "style": "width: 100%; height: 100%; position:absolute; margin:auto; top:0; bottom:0; left:0; right:0; object-fit:contain;"
+        "style": "width:100%; height:100%; position:absolute; margin:auto; top:1px; bottom:2px; left:3px; right:4px; object-fit:contain;"
       },
       "$tome": {
         "type": "dynamic",

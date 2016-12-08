@@ -14,7 +14,7 @@ class Json2Dom {
    ****************************************************************************/
   constructor(ctl) {
     this.ctl = ctl;
-    this.elements = [];
+    this.elements = {};
   }
 
   /** **************************************************************************
@@ -42,7 +42,7 @@ class Json2Dom {
    * @return {Promise} possible to wait beacon finished
    ****************************************************************************/
   load(url) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       new Promise((load, fail) => {
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
@@ -52,16 +52,16 @@ class Json2Dom {
         xhr.send();
       }).then((xhr) => {
         if (xhr.status !== 200) {
-          throw new Error(`could not get json format - ${xhr.status}`);
+          reject(`could not get json format - ${xhr.status}`);
         }
         try {
           const o = JSON.parse(xhr.responseText);
           resolve(this.build(o));
         } catch (error) {
-          throw new Error(`could not get json format - ${error}`);
+          reject(`could not get json format - ${error}`);
         }
-      }, (error) => {
-        throw new Error(`could not get json format - ${error}`);
+      }).catch((error) => {
+        reject(error);
       });
     });
   }
@@ -76,10 +76,12 @@ class Json2Dom {
     const capRole = Json2Dom.capitalization(role);
 
     // create element
-    this.controllerFunc(`before${capRole}Create`)(json.data, json);
+    if (this.ctlFunc(`before${capRole}Create`, { data: json.data, json }) === false) {
+      return null;
+    }
     let type = json.type;
     if (type === 'dynamic') {
-      type = this.controllerFunc(`tagNameOf${capRole}`)(json.data, json);
+      type = this.ctlFunc(`tagNameOf${capRole}`, { data: json.data, json });
       if (typeof type === 'undefined') {
         throw new Error(`Controller shold have tagNameOf${capRole}()`);
       }
@@ -91,7 +93,7 @@ class Json2Dom {
 
     // set attributes
     elm.setAttribute('role', role);
-    elm.addEventListener('click', (e) => { this.controllerFunc(`on${capRole}Click`)(e, elm, json.data, json); }, false);
+    elm.addEventListener('click', (e) => { this.ctlFunc(`on${capRole}Click`, { event: e, elm, data: json.data, json }); }, false);
 
     // set other attributes and child elements
     Object.keys(json).forEach((key) => {
@@ -100,9 +102,11 @@ class Json2Dom {
       if (re) {
         const childRole = re[1];
         const child = this.myParseJson(value, childRole);
-        elm.appendChild(child);
+        if (child) {
+          elm.appendChild(child);
+        }
       } else if (key === 'style') {
-        elm.cssText = value;
+        elm.style.cssText = value;
       } else if (key === 'data' || key === 'type') {
         return;
       } else {
@@ -111,7 +115,7 @@ class Json2Dom {
     });
 
     // after create
-    this.controllerFunc(`after${capRole}Create`)(elm, json.data, json);
+    this.ctlFunc(`after${capRole}Create`, { data: json.data, json });
     this.elements[role] = elm;
     return elm;
   }
@@ -119,10 +123,14 @@ class Json2Dom {
   /** **************************************************************************
    * controller func
    * @param  {String} funcName controller's function name
-   * @return {Function} controller's function
+   * @param  {Object} option parameter option
+   * @return {Something} return function value;
    ****************************************************************************/
-  controllerFunc(funcName) {
-    return typeof this.ctl[funcName] === 'function' ? this.ctl[funcName] : () => {};
+  ctlFunc(funcName, option) {
+    if (typeof this.ctl[funcName] === 'function') {
+      return this.ctl[funcName](option);
+    }
+    return null;
   }
 
   /** **************************************************************************
