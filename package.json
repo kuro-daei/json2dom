@@ -1,12 +1,28 @@
 {
   "name": "json2dom",
   "version": "0.0.1",
-  "description": "DOM Maker",
+  "description": "It will make HTML DOM from json format file.",
   "scripts": {
     "test": "./node_modules/.bin/webpack-dev-server --port 3000 --hot --inlne --content-base ./test/",
+    "compile:prd": "NODE_ENV=production ./node_modules/.bin/webpack",
     "compile:dev": "NODE_ENV=develop ./node_modules/.bin/webpack --watch"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kuro-daei/json2dom.git"
+  },
   "main": "dist/index.js",
+  "author": "Eiji Kuroda",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/kuro-daei/json2dom/issues"
+  },
+  "homepage": "https://github.com/kuro-daei/json2dom#readme",
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
