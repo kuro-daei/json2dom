@@ -100,9 +100,7 @@ class Json2Dom {
       if (re) {
         const childRole = re[1];
         const child = this.myParseJson(value, childRole);
-        if (child) {
-          elm.appendChild(child);
-        }
+        elm.appendChild(child);
       } else if (key === 'style') {
         elm.style.cssText = value;
       } else if (key === 'data' || key === 'type') {
